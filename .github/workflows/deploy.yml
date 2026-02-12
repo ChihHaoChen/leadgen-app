@@ -48,10 +48,10 @@ jobs:
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
           cd /opt/docker-services
-          docker-compose pull leadgen-app
-          docker-compose up -d leadgen-app
+          docker compose pull leadgen-app
+          docker compose up -d leadgen-app
           docker image prune -f
-          echo "✅ Deployment complete!"
+          echo "Deployment complete!"
           
     - name: Verify deployment
       uses: appleboy/ssh-action@v1.0.0
@@ -61,6 +61,6 @@ jobs:
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
           sleep 10
-          docker-compose logs --tail=50 leadgen-app
-          curl -f https://espada.leadersdojo.co/api/health || exit 1
-          echo "✅ Health check passed!"
+          docker compose logs --tail=50 leadgen-app
+          curl -f http://localhost:3000/api/health || exit 1
+          echo "Health check passed!"
